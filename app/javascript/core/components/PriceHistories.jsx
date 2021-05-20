@@ -151,52 +151,49 @@ export default function PriceHistories() {
             </Col>
           </FormGroup>
         </Container>
-        {/*<hr/>*/}
         <Container className="themed-container" fluid={true}>
-          { (
-            <Table className="table-bordered" {...getTableProps()} size="xl">
-              <thead>
-              {headerGroups.map(headerGroup => (
-                <tr {...headerGroup.getHeaderGroupProps()}>
-                  <th>#</th>
-                  {headerGroup.headers.map(column => (
-                    <th
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                    >
-                      {column.render('Header')}
-                      <span>
+          <Table className="table-bordered" {...getTableProps()} size="xl">
+            <thead>
+            {headerGroups.map(headerGroup => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                <th>#</th>
+                {headerGroup.headers.map(column => (
+                  <th
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                  >
+                    {column.render('Header')}
+                    <span>
                         {column.isSorted
                           ? column.isSortedDesc
                             ? ' 🔽'
                             : ' 🔼'
                           : ''}
                       </span>
-                    </th>
-                  ))}
+                  </th>
+                ))}
+              </tr>
+            ))}
+            </thead>
+            <tbody {...getTableBodyProps()}>
+            {rows.map((row, i) => {
+              prepareRow(row)
+              return (
+                <tr {...row.getRowProps()}>
+                  <td>{String(i + 1)}</td>
+                  {row.cells.map(cell => {
+                    return (
+                      <td
+                        {...cell.getCellProps()}
+                      >
+                        {cell.render('Cell')}
+                      </td>
+                    )
+                  })}
                 </tr>
-              ))}
-              </thead>
-              <tbody {...getTableBodyProps()}>
-              {rows.map((row, i) => {
-                prepareRow(row)
-                return (
-                  <tr {...row.getRowProps()}>
-                    <td>{String(i + 1)}</td>
-                    {row.cells.map(cell => {
-                      return (
-                        <td
-                          {...cell.getCellProps()}
-                        >
-                          {cell.render('Cell')}
-                        </td>
-                      )
-                    })}
-                  </tr>
-                )
-              })}
-              </tbody>
-            </Table>
-          )}
+              )
+            })}
+            </tbody>
+          </Table>
         </Container>
       </div>
     </>

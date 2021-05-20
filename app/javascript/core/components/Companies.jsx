@@ -70,7 +70,7 @@ export default function Companies() {
     <>
       <div className="content">
         <Container className="themed-container mb-4" fluid={true}>
-          <Button className="primary" onClick={syncCompanies} disabled>Sync Companies</Button>
+          <Button className="primary" onClick={syncCompanies}>Sync Companies</Button>
           {' '}
           Last Synced on: { lastSynced ? lastSynced : 'Never synced'}
         </Container>
@@ -81,9 +81,16 @@ export default function Companies() {
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map(column => (
                   <th
-                    {...column.getHeaderProps()}
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
                   >
                     {column.render('Header')}
+                    <span>
+                        {column.isSorted
+                          ? column.isSortedDesc
+                            ? ' 🔽'
+                            : ' 🔼'
+                          : ''}
+                      </span>
                   </th>
                 ))}
               </tr>
