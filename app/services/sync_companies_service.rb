@@ -3,12 +3,12 @@
 class SyncCompaniesService < ApplicationService
   def call
     Nepse::Companies.fetch.each do |company|
-      sector = company.dig('companyId', 'sectorMaster', 'sectorDescription').gsub(' ', '').underscore
       Company.create({
                        security_name: company['securityName'],
-                       active_status: company['activeStatus'] == 'A' ? :active : :inactive,
                        symbol: company['symbol'],
-                       sector: sector
+                       sector: company['sectorName'].gsub(' ', '').underscore,
+                       instrument_type: company['instrumentType'].gsub(' ', '').underscore,
+                       nepse_company_id: company['id'],
                      })
     end
   end

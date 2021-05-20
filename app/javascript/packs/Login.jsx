@@ -12,7 +12,7 @@ function Login() {
     event.preventDefault();
 
     axios({
-      method: 'post',
+      method: 'POST',
       url: '/users/sign_in.json',
       headers: {
         'Content-Type': 'application/json',
@@ -22,10 +22,12 @@ function Login() {
         user: { email, password },
       },
     }).then((response) => {
+      debugger;
       if (response.status === 201) {
         window.location.href = '/';
       }
     }).catch(() => {
+      debugger;
     });
   }
 

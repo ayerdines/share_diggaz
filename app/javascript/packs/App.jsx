@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from '../components/App';
+import ShareDiggaz from '../core';
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <App />,
+    <ShareDiggaz />,
     document.getElementById('root'),
   );
 });

@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  business_date: 2021-05-19 19:44:23
+  close_price: 1
+  high_price: 1
+  open_price: 1
+  low_price: 1
+  last_updated_time: 2021-05-19 19:44:23
+  total_traded_quantity: 
+  total_traded_value: 
+  total_trades: 
+
+two:
+  business_date: 2021-05-19 19:44:23
+  close_price: 1
+  high_price: 1
+  open_price: 1
+  low_price: 1
+  last_updated_time: 2021-05-19 19:44:23
+  total_traded_quantity: 
+  total_traded_value: 
+  total_trades: 
