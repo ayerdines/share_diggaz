@@ -1,7 +1,19 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTable, useFilters, useSortBy, usePagination } from 'react-table';
 import apiCall from "../helpers/apiCall";
-import { Button, Container, Table } from "reactstrap";
+import {
+  Button,
+  Card, CardBody,
+  CardHeader, CardTitle,
+  Col,
+  Container,
+  Input,
+  Pagination,
+  PaginationItem,
+  PaginationLink,
+  Row,
+  Table
+} from "reactstrap";
 
 export default function Companies() {
   const [companies, setCompanies] = useState([]);
@@ -57,8 +69,6 @@ export default function Companies() {
     prepareRow,
     canPreviousPage,
     canNextPage,
-    pageOptions,
-    pageCount,
     gotoPage,
     nextPage,
     previousPage,
@@ -68,99 +78,66 @@ export default function Companies() {
 
   return (
     <>
-      <div className="content">
-        <Container className="themed-container mb-4" fluid={true}>
-          <Button className="primary" onClick={syncCompanies}>Sync Companies</Button>
-          {' '}
-          Last Synced on: { lastSynced ? lastSynced : 'Never synced'}
-        </Container>
-        <Container className="themed-container" fluid={true}>
-          <Table className="table-bordered" {...getTableProps()} size="xl">
-            <thead>
-            {headerGroups.map(headerGroup => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map(column => (
-                  <th
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                  >
-                    {column.render('Header')}
-                    <span>
+      <Container className="pb-8 pt-5 pt-md-8" fluid>
+        <Row>
+          <Col xs={12}>
+            <Button color="primary" type="button" onClick={syncCompanies}>
+              Sync Companies
+            </Button>
+            { ' ' }
+            Last Synced on: { lastSynced ? lastSynced : 'Never synced'}
+          </Col>
+        </Row>
+        <Row className="mt-5">
+          <Col>
+            <Card className="shadow">
+              <CardHeader className="border-0">
+                <h3 className="mb-0">Companies</h3>
+              </CardHeader>
+              <Table className="align-items-center table-flush" {...getTableProps()}>
+                <thead>
+                {headerGroups.map(headerGroup => (
+                  <tr {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroup.headers.map(column => (
+                      <th
+                        {...column.getHeaderProps(column.getSortByToggleProps())}
+                      >
+                        {column.render('Header')}
+                        <span>
                         {column.isSorted
                           ? column.isSortedDesc
                             ? ' 🔽'
                             : ' 🔼'
                           : ''}
                       </span>
-                  </th>
+                      </th>
+                    ))}
+                  </tr>
                 ))}
-              </tr>
-            ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-            {page.map(row => {
-              prepareRow(row)
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map(cell => {
-                    return (
-                      <td
-                        {...cell.getCellProps()}
-                      >
-                        {cell.render('Cell')}
-                      </td>
-                    )
-                  })}
-                </tr>
-              )
-            })}
-            </tbody>
-          </Table>
-        </Container>
-        <Container>
-          <Button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-            {'<<'}
-          </Button>{' '}
-          <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
-            {'<'}
-          </Button>{' '}
-          <Button onClick={() => nextPage()} disabled={!canNextPage}>
-            {'>'}
-          </Button>{' '}
-          <Button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-            {'>>'}
-          </Button>{' '}
-          <span>
-            Page{' '}
-            <strong>
-            {pageIndex + 1} of {pageOptions.length}
-            </strong>{' '}
-          </span>
-          <span>
-          | Go to page:{' '}
-            <input
-              type="number"
-              defaultValue={pageIndex + 1}
-              onChange={e => {
-                const page = e.target.value ? Number(e.target.value) - 1 : 0
-                gotoPage(page)
-              }}
-              style={{ width: '100px' }}
-            />
-          </span>{' '}
-          <select
-            value={pageSize}
-            onChange={e => {
-              setPageSize(Number(e.target.value))
-            }}
-          >
-            {[10, 20, 30, 40, 50, 100, 200, 300, 400].map(pageSize => (
-              <option key={pageSize} value={pageSize}>
-                Show {pageSize}
-              </option>
-            ))}
-          </select>
-        </Container>
-      </div>
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                {page.map(row => {
+                  prepareRow(row)
+                  return (
+                    <tr {...row.getRowProps()}>
+                      {row.cells.map(cell => {
+                        return (
+                          <td
+                            {...cell.getCellProps()}
+                          >
+                            {cell.render('Cell')}
+                          </td>
+                        )
+                      })}
+                    </tr>
+                  )
+                })}
+                </tbody>
+              </Table>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
     </>
   )
 }

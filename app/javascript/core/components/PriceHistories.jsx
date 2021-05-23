@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTable, useSortBy } from 'react-table';
 import apiCall from "../helpers/apiCall";
-import {Button, Col, Container, FormGroup, Input, Label, Table} from "reactstrap";
+import {Button, Card, CardHeader, Col, Container, Input, Row, Table} from "reactstrap";
+import Header from "./Headers/Header";
 
 export default function PriceHistories() {
   const [priceHistories, setPriceHistories] = useState([]);
@@ -68,17 +69,17 @@ export default function PriceHistories() {
         Header: `Business Day (${date.split('T')[0]})`,
         columns: [
           {
-            Header: 'Volume Change',
+            Header: 'VC',
             accessor: `volume_change_${index}`,
             sortDescFirst: true
           },
           {
-            Header: 'Price Change',
+            Header: 'PC',
             accessor: `price_change_${index}`,
             sortDescFirst: true
           },
           {
-            Header: 'Average Price',
+            Header: 'AP',
             accessor: `average_traded_price_${index}`,
             sortDescFirst: true
           }],
@@ -97,17 +98,17 @@ export default function PriceHistories() {
         Header: 'Average',
         columns: [
           {
-            Header: 'Volume Change',
+            Header: 'VC',
             accessor: `average_volume_change`,
             sortDescFirst: true
           },
           {
-            Header: 'Price Change',
+            Header: 'PC',
             accessor: 'average_price_change',
             sortDescFirst: true
           },
           {
-            Header: 'Average Price',
+            Header: 'AP',
             accessor: 'average_traded_price',
             sortDescFirst: true
           }],
@@ -120,8 +121,16 @@ export default function PriceHistories() {
     setSector(event.target.value);
   }
 
-  const syncPriceHistories = () => {
-    apiCall.submitEntity({ sector: sector },'/price_histories/sync.json')
+  const syncLastDay = () => {
+    syncPriceHistories(true);
+  }
+
+  const syncAll = () => {
+    syncPriceHistories();
+  }
+
+  const syncPriceHistories = (lastDay = false) => {
+    apiCall.submitEntity({ sector: sector, last_day: lastDay },'/price_histories/sync.json')
       .then((response) => {
         alert('Sync Started');
       }).catch(() => {});
@@ -138,64 +147,76 @@ export default function PriceHistories() {
 
   return (
     <>
-      <div className="content">
-        <Container className="themed-container mb-4" fluid={true} >
-          <FormGroup row>
-            <Col sm={6}>
-              <Input type="select" name="select" id="selectSectors" bsSize="md" onChange={toggleSector}>
-                { sectorOptions.map((sector, index) => <option key={String(index)} value={sector.value}>{sector.label}</option> )}
-              </Input>
-            </Col>
-            <Col sm={4}>
-              <Button className="primary" onClick={syncPriceHistories}>Sync Sector Price Histories</Button>
-            </Col>
-          </FormGroup>
-        </Container>
-        <Container className="themed-container" fluid={true}>
-          <Table className="table-bordered" {...getTableProps()} size="xl">
-            <thead>
-            {headerGroups.map(headerGroup => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                <th>#</th>
-                {headerGroup.headers.map(column => (
-                  <th
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                  >
-                    {column.render('Header')}
-                    <span>
+      <Container className="pb-8 pt-5 pt-md-8" fluid>
+        <Row>
+          <Col md={3}>
+            <Input type="select" bsSize="md" onChange={toggleSector}>
+              { sectorOptions.map((sector, index) => <option key={String(index)} value={sector.value}>{sector.label}</option> )}
+            </Input>
+          </Col>
+          <Col md={9}>
+            <Button color="primary" type="button" onClick={syncAll}>
+              Sync Sector Price Histories
+            </Button>
+            <Button color="primary" type="button" onClick={syncLastDay}>
+              Sync Last Trading Day
+            </Button>
+          </Col>
+          <Col>
+            <Row className="mt-5">
+              <Col>
+                <Card className="shadow">
+                  <CardHeader className="border-0">
+                    <h3 className="mb-0">Price Histories</h3>
+                  </CardHeader>
+                  <Table className="align-items-center table-flush" responsive {...getTableProps()}>
+                    <thead>
+                    {headerGroups.map(headerGroup => (
+                      <tr {...headerGroup.getHeaderGroupProps()}>
+                        <th />
+                        {headerGroup.headers.map(column => (
+                          <th
+                            {...column.getHeaderProps(column.getSortByToggleProps())}
+                          >
+                            {column.render('Header')}
+                            <span>
                         {column.isSorted
                           ? column.isSortedDesc
                             ? ' 🔽'
                             : ' 🔼'
                           : ''}
                       </span>
-                  </th>
-                ))}
-              </tr>
-            ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-            {rows.map((row, i) => {
-              prepareRow(row)
-              return (
-                <tr {...row.getRowProps()}>
-                  <td>{String(i + 1)}</td>
-                  {row.cells.map(cell => {
-                    return (
-                      <td
-                        {...cell.getCellProps()}
-                      >
-                        {cell.render('Cell')}
-                      </td>
-                    )
-                  })}
-                </tr>
-              )
-            })}
-            </tbody>
-          </Table>
-        </Container>
-      </div>
+                          </th>
+                        ))}
+                      </tr>
+                    ))}
+                    </thead>
+                    <tbody {...getTableBodyProps()}>
+                    {rows.map((row, i) => {
+                      prepareRow(row)
+                      return (
+                        <tr {...row.getRowProps()}>
+                          <td>{String(i + 1)}</td>
+                          {row.cells.map(cell => {
+                            return (
+                              <td
+                                {...cell.getCellProps()}
+                              >
+                                {cell.render('Cell')}
+                              </td>
+                            )
+                          })}
+                        </tr>
+                      )
+                    })}
+                    </tbody>
+                  </Table>
+                </Card>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
     </>
   )
 }

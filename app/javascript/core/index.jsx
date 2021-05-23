@@ -1,23 +1,21 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
   Switch,
   Route,
   Redirect
 } from "react-router-dom";
-import DashboardLayout from "./DashboardLayout";
+import AdminLayout from './layouts/Admin';
 
 export default function Index() {
   return (
     <>
-      <Router>
-        <div className="main-content">
-          <Switch>
-            <Route path="/dashboard" render={() => <DashboardLayout />} />
-            <Redirect from="/" to="/dashboard/companies" />
-          </Switch>
-        </div>
-      </Router>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+          <Redirect from="/" to="/admin/index" />
+        </Switch>
+      </BrowserRouter>
     </>
   );
 }

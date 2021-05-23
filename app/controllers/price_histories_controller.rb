@@ -1,7 +1,7 @@
 class PriceHistoriesController < ApplicationController
   def index
     last_3_business_dates = PriceHistory
-                                 .select(:business_date).where(business_date: 10.days.ago..1.day.ago).distinct.order(business_date: :desc)
+                                 .select(:business_date).where(business_date: 10.days.ago..Float::INFINITY).distinct.order(business_date: :desc)
                                  .limit(3)
 
     symbols = Company.select(:symbol).where(sector: params.require(:sector), instrument_type: :equity).pluck(:symbol)
@@ -11,7 +11,8 @@ class PriceHistoriesController < ApplicationController
 
   def sync
     sector = params.require(:sector)
-    SyncPriceHistoriesJob.perform_later([sector])
+    size = params[:last_day].present? ? 1 : 10
+    SyncPriceHistoriesJob.perform_later([sector], nil, 0, size)
     render json: {}, status: :ok
   end
 end
