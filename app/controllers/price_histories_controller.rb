@@ -6,7 +6,7 @@ class PriceHistoriesController < ApplicationController
 
     symbols = Company.select(:symbol).where(sector: params.require(:sector), instrument_type: :equity).pluck(:symbol)
     records = PriceHistory.where(symbol: symbols, business_date: (last_3_business_dates.last&.business_date)..Float::INFINITY).order(:symbol, business_date: :desc)
-    render json: PriceHistorySerializer.new(records, meta: {last_3_business_dates: last_3_business_dates}).serializable_hash.as_json
+    render json: PriceHistorySerializer.new(records, meta: { last_3_business_dates: last_3_business_dates }).serializable_hash.as_json
   end
 
   def sync

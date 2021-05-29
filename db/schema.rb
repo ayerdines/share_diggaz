@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_19_135923) do
+ActiveRecord::Schema.define(version: 2021_05_26_110313) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,24 @@ ActiveRecord::Schema.define(version: 2021_05_19_135923) do
     t.index ["nepse_company_id"], name: "index_companies_on_nepse_company_id"
     t.index ["sector"], name: "index_companies_on_sector"
     t.index ["symbol"], name: "index_companies_on_symbol"
+  end
+
+  create_table "financial_reports", force: :cascade do |t|
+    t.string "symbol"
+    t.integer "year"
+    t.integer "quarter"
+    t.decimal "net_profit", precision: 16, scale: 2
+    t.decimal "net_interest_income", precision: 16, scale: 2
+    t.decimal "distributable_profit", precision: 16, scale: 2
+    t.decimal "shares_outstanding", precision: 16, scale: 2
+    t.decimal "book_value", precision: 16, scale: 2
+    t.decimal "eps", precision: 16, scale: 2
+    t.decimal "roe", precision: 16, scale: 2
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["symbol"], name: "index_financial_reports_on_symbol"
+    t.index ["year", "quarter"], name: "index_financial_reports_on_year_and_quarter"
+    t.index ["year"], name: "index_financial_reports_on_year"
   end
 
   create_table "price_histories", force: :cascade do |t|
@@ -52,6 +70,18 @@ ActiveRecord::Schema.define(version: 2021_05_19_135923) do
     t.index ["total_traded_quantity"], name: "index_price_histories_on_total_traded_quantity"
   end
 
+  create_table "share_transactions", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "symbol"
+    t.integer "transaction_type", default: 0
+    t.integer "quantity"
+    t.integer "price"
+    t.datetime "business_date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_share_transactions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -62,6 +92,19 @@ ActiveRecord::Schema.define(version: 2021_05_19_135923) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "watchlists", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "symbol"
+    t.integer "quantity"
+    t.integer "price"
+    t.datetime "business_date"
+    t.integer "category", default: 0
+    t.text "remarks"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_watchlists_on_user_id"
   end
 
 end

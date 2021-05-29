@@ -7,11 +7,19 @@ Rails.application.routes.draw do
   resources :companies, only: %i[index] do
     collection do
       get :sector_options
+      get :symbol_options
       post :sync
     end
   end
 
   resources :price_histories, only: %i[index] do
+    collection do
+      post :sync
+    end
+  end
+
+  resources :watchlists, only: %i[index create update destroy]
+  resources :financial_reports, only: %i[index create update destroy] do
     collection do
       post :sync
     end

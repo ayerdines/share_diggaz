@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  symbol: MyString
+  number_of_shares: 1
+  price: 1
+  business_date: 2021-05-26 11:57:04
+  category: 
+  remarks: MyText
+
+two:
+  symbol: MyString
+  number_of_shares: 1
+  price: 1
+  business_date: 2021-05-26 11:57:04
+  category: 
+  remarks: MyText

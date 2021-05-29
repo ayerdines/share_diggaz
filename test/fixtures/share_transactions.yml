@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  symbol: MyString
+  transaction_type: 1
+  quantity: 1
+  price: 1
+  business_date: 2021-05-26 12:08:03
+
+two:
+  symbol: MyString
+  transaction_type: 1
+  quantity: 1
+  price: 1
+  business_date: 2021-05-26 12:08:03

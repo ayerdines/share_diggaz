@@ -1,8 +1,5 @@
 import React from "react";
 import { useLocation, Route, Switch, Redirect } from "react-router-dom";
-// reactstrap components
-import { Container } from "reactstrap";
-// core components
 import Sidebar from "../components/Sidebar/Sidebar";
 import routes from "../routes";
 
@@ -30,18 +27,6 @@ export default function Admin(props) {
         return null;
       }
     });
-  };
-
-  const getBrandText = (path) => {
-    for (let i = 0; i < routes.length; i++) {
-      if (
-        props.location.pathname.indexOf(routes[i].layout + routes[i].path) !==
-        -1
-      ) {
-        return routes[i].name;
-      }
-    }
-    return "Brand";
   };
 
   return (

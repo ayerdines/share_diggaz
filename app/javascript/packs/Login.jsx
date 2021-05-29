@@ -22,12 +22,10 @@ function Login() {
         user: { email, password },
       },
     }).then((response) => {
-      debugger;
       if (response.status === 201) {
         window.location.href = '/';
       }
     }).catch(() => {
-      debugger;
     });
   }
 
