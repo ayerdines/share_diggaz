@@ -1,4 +1,4 @@
 class WatchlistSerializer
   include JSONAPI::Serializer
-  attributes :id, :symbol, :transaction_type, :quantity, :price, :business_date, :last_price_history
+  attributes :id, :symbol, :quantity, :price, :business_date, :category, :remarks
 end

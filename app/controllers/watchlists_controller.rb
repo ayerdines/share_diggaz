@@ -1,12 +1,14 @@
 class WatchlistsController < ApplicationController
-  before_action :set_watchlist, only: %i[update destroy]
+  before_action :set_watchlist, only: %i[show update destroy]
 
   def index
-    records = policy_scope(Watchlist).all
-    if params[:transaction_type].present?
-      records = records.where(transaction_type: params[:transaction_type])
-    end
-    render json: WatchlistSerializer.new(records).serializable_hash.as_json
+    records = policy_scope(Watchlist)
+    close_prices = PriceHistory.distinct.where(symbol: records.pluck(:symbol)).order(:symbol, business_date: :desc).as_json(only: [:symbol, :close_price])
+    render json: WatchlistSerializer.new(records, meta: { close_prices: close_prices }).serializable_hash.as_json
+  end
+
+  def show
+    render json: WatchlistSerializer.new(@watchlist).serializable_hash.as_json
   end
 
   def create
@@ -30,6 +32,10 @@ class WatchlistsController < ApplicationController
     @watchlist.destroy
   end
 
+  def categories
+    render json: Watchlist.categories.keys.map { |category| { label: category.titleize, value: category } }
+  end
+
   private
 
   def set_watchlist
@@ -37,7 +43,7 @@ class WatchlistsController < ApplicationController
   end
 
   def watchlist_params
-    permitted_params = params.require(:watchlist).permit(:symbol, :transaction_type, :quantity, :price, :business_date)
+    permitted_params = params.require(:watchlist).permit(:symbol, :quantity, :price, :business_date, :category, :remarks)
     permitted_params.merge(user_id: current_user.id)
   end
 end

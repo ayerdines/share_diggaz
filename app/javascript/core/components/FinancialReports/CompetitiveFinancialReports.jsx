@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import ReactTable from '../ReactTable';
 import { Button, Card, CardBody, Col, Container, Input, Row } from "reactstrap";
 import apiCall from "../../helpers/apiCall";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import adminCanAccess from "../../helpers/Authorization";
 
 export default function CompetitiveFinancialReports({ history }) {
   const [sectorOptions, setSectorOptions] = useState([]);
@@ -118,7 +119,7 @@ export default function CompetitiveFinancialReports({ history }) {
 
   return (
     <>
-      <Container className="pb-8 pt-5 pt-md-8" fluid>
+      <Container className="mt--9" fluid>
         <Row>
           <Col md={3}>
             <Input type="select" bsSize="md" onChange={(event) => setSector(event.target.value)}>
@@ -126,14 +127,16 @@ export default function CompetitiveFinancialReports({ history }) {
             </Input>
           </Col>
           <Col md={9}>
-            <Button color="primary" type="button" onClick={syncSectorFinancialReports}>
-              Sync Sector Financial Reports
-            </Button>
+            { adminCanAccess() && (
+              <Button color="primary" type="button" onClick={syncSectorFinancialReports}>
+                Sync Sector Financial Reports
+              </Button>
+            )}
           </Col>
           <Col>
             <Row className="mt-5">
               <Col>
-                <Tabs>
+                <Tabs className="rounded-top bg-white">
                   <TabList>
                     <Tab>EPS</Tab>
                     <Tab>Book Value</Tab>

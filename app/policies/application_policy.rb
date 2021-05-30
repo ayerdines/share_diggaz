@@ -7,23 +7,31 @@ class ApplicationPolicy
   end
 
   def index?
-    true
+    user_or_admin?
   end
 
   def show?
-    true
+    user_or_admin?
   end
 
   def create?
-    true
+    user_or_admin?
   end
 
   def update?
-    true
+    user_or_admin?
   end
 
   def destroy?
-    true
+    user_or_admin?
+  end
+
+  def sync?
+    user.admin?
+  end
+
+  def user_or_admin?
+    user.user? || user.admin?
   end
 
   class Scope

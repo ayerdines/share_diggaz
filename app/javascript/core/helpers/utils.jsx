@@ -8,6 +8,15 @@ function isObject(o) {
   return o === Object(o) && !isArray(o) && typeof o !== 'function';
 }
 
+export const camelToUnderscoreObj = (obj) => {
+  const newObject = {};
+  Object.keys(obj)
+    .forEach((k) => {
+      newObject[camelToUnderscore(k)] = obj[k];
+    });
+  return newObject;
+};
+
 export function keysToSnake(o, depth = 2) {
   if (depth <= 0) {
     return o;

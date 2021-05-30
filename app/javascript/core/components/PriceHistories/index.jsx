@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, {useContext, useEffect, useMemo, useState} from 'react';
 import apiCall from "../../helpers/apiCall";
 import { Button, Card, CardHeader, Col, Container, Input, Row } from "reactstrap";
 import ReactTable from "../ReactTable";
+import adminCanAccess from "../../helpers/Authorization";
 
 export default function Index() {
   const [priceHistories, setPriceHistories] = useState([]);
@@ -71,20 +72,21 @@ export default function Index() {
         Header: `Business Day (${date.split('T')[0]})`,
         columns: [
           {
-            Header: 'VC',
+            Header: 'Volume Change',
             accessor: `volume_change_${index}`,
             sortDescFirst: true
           },
           {
-            Header: 'PC',
+            Header: 'Price Change',
             accessor: `price_change_${index}`,
             sortDescFirst: true
           },
-          {
-            Header: 'AP',
-            accessor: `average_traded_price_${index}`,
-            sortDescFirst: true
-          }],
+          // {
+          //   Header: 'AP',
+          //   accessor: `average_traded_price_${index}`,
+          //   sortDescFirst: true
+          // }
+        ],
       }
     })
   }
@@ -120,20 +122,21 @@ export default function Index() {
         Header: 'Average',
         columns: [
           {
-            Header: 'VC',
+            Header: 'Volume Change',
             accessor: `average_volume_change`,
             sortDescFirst: true
           },
           {
-            Header: 'PC',
+            Header: 'Price Change',
             accessor: 'average_price_change',
             sortDescFirst: true
           },
-          {
-            Header: 'AP',
-            accessor: 'average_traded_price',
-            sortDescFirst: true
-          }],
+          // {
+          //   Header: 'AP',
+          //   accessor: 'average_traded_price',
+          //   sortDescFirst: true
+          // }
+          ],
       },
     ],
     [businessDates]
@@ -141,7 +144,7 @@ export default function Index() {
 
   return (
     <>
-      <Container className="pb-8 pt-5 pt-md-8" fluid>
+      <Container className="mt--9" fluid>
         <Row>
           <Col md={3}>
             <Input type="select" bsSize="md" onChange={toggleSector}>
@@ -149,12 +152,16 @@ export default function Index() {
             </Input>
           </Col>
           <Col md={9}>
-            <Button color="primary" type="button" onClick={syncAll}>
-              Sync Sector Price Histories
-            </Button>
-            <Button color="primary" type="button" onClick={syncLastDay}>
-              Sync Last Trading Day
-            </Button>
+            { adminCanAccess() && (
+              <>
+                <Button color="primary" type="button" onClick={syncAll}>
+                  Sync Sector Price Histories
+                </Button>
+                <Button color="primary" type="button" onClick={syncLastDay}>
+                  Sync Last Trading Day
+                </Button>
+              </>
+            )}
           </Col>
           <Col>
             <Row className="mt-5">

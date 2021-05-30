@@ -7,7 +7,6 @@ module Nepse
       pre = browser.element(tag_name: 'pre').wait_until(&:present?)
       pre.text
       html = JSON.parse(pre.text).dig('html')
-      # byebug
       parse_table(html, symbol)
     end
 
@@ -43,14 +42,13 @@ module Nepse
           'symbol': symbol,
           'year': y,
           'quarter': quarter,
-          'net_profit': data['Net Profit'][i],
-          'net_interest_income': data['Net Interest Income'][i],
-          # 'distributable_profit': data['Distributable Profit'][i],
+          'net_profit': data.dig('Net Profit', i),
+          'net_interest_income': data.dig('Net Interest Income', i),
           'distributable_profit': data.dig('Distributable Profit', i),
-          'shares_outstanding': data['Shares Outstanding'][i],
-          'eps': data['EPS'][i],
-          'book_value': data['Book Value'][i],
-          'roe': data['ROE'][i]
+          'shares_outstanding': data.dig('Shares Outstanding', i),
+          'eps': data.dig('EPS', i),
+          'book_value': data.dig('Book Value', i),
+          'roe': data.dig('ROE', i)
         }
         records.push(record)
       end
@@ -60,7 +58,8 @@ module Nepse
     def self.year_mapping
       {
         '077-078' => '77078',
-        '076-077' => '76077'
+        '076-077' => '76077',
+        '075-076' => '75076'
       }
     end
   end

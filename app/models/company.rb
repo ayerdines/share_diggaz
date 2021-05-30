@@ -13,6 +13,6 @@ class Company < ApplicationRecord
   validates_uniqueness_of :symbol
 
   def last_price_history
-    self.price_histories.order(business_date: :desc).first
+    self.price_histories.max_by(&:business_date)
   end
 end

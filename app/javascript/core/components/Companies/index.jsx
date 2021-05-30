@@ -9,6 +9,7 @@ import {
   Container,
   Row
 } from "reactstrap";
+import adminCanAccess from "../../helpers/Authorization";
 
 export default function Index() {
   const [companies, setCompanies] = useState([]);
@@ -59,14 +60,18 @@ export default function Index() {
 
   return (
     <>
-      <Container className="pb-8 pt-5 pt-md-8" fluid>
+      <Container className="mt--9" fluid>
         <Row>
           <Col xs={12}>
-            <Button color="primary" type="button" onClick={syncCompanies}>
-              Sync Companies
-            </Button>
-            { ' ' }
-            Last Synced on: { lastSynced ? lastSynced : 'Never synced'}
+            { adminCanAccess() && (
+              <>
+                <Button color="primary" type="button" onClick={syncCompanies}>
+                  Sync Companies
+                </Button>
+                {' '}
+                Last Synced on: { lastSynced ? lastSynced : 'Never synced'}
+              </>
+            )}
           </Col>
         </Row>
         <Row className="mt-5">

@@ -6,13 +6,15 @@ import CompetitiveFinancialReports from "./components/FinancialReports/Competiti
 import WatchlistForm from "./components/Watchlists/Form";
 import Portfolio from "./components/ShareTransactions";
 import PortfolioForm from "./components/ShareTransactions/Form";
+import UserForm from "./components/Users/Form";
+import Users from "./components/Users";
 
 const routes = [
   {
     path: "/index",
     name: "Price Histories",
     visible: true,
-    icon: "ni ni-atom text-primary",
+    icon: "ni ni-sound-wave text-primary",
     component: PriceHistories,
     layout: "/admin",
   },
@@ -20,27 +22,35 @@ const routes = [
     path: "/companies",
     name: "Companies",
     visible: true,
-    icon: "ni ni-atom text-blue",
+    icon: "ni ni-building text-danger",
     component: Companies,
     layout: "/admin",
   },
   {
-    path: '/watchlist/:id/edit',
+    path: '/watchlists/:id/edit',
     visible: false,
     component: WatchlistForm,
     layout: "/admin",
   },
   {
-    path: '/watchlist/new',
+    path: '/watchlists/new',
     visible: false,
     component: WatchlistForm,
+    layout: "/admin",
+  },
+  {
+    path: '/watchlists',
+    name: 'Watchlist',
+    visible: true,
+    icon: "ni ni-watch-time text-info",
+    component: Watchlists,
     layout: "/admin",
   },
   {
     path: '/financial-reports',
     name: 'Financial Reports',
     visible: true,
-    icon: "ni ni-atom text-red",
+    icon: "ni ni-books text-warning",
     component: FinancialReports,
     layout: "/admin",
   },
@@ -48,28 +58,8 @@ const routes = [
     path: '/competitive-financial-reports',
     name: 'Competitive Financial Reports',
     visible: true,
-    icon: "ni ni-atom text-red",
+    icon: "ni ni-chart-bar-32 text-success",
     component: CompetitiveFinancialReports,
-    layout: "/admin",
-  },
-  {
-    path: '/watchlist/:id/edit',
-    visible: false,
-    component: WatchlistForm,
-    layout: "/admin",
-  },
-  {
-    path: '/watchlist/new',
-    visible: false,
-    component: WatchlistForm,
-    layout: "/admin",
-  },
-  {
-    path: '/watchlist',
-    name: 'Watchlist',
-    visible: true,
-    icon: "ni ni-atom text-red",
-    component: Watchlists,
     layout: "/admin",
   },
   {
@@ -88,9 +78,32 @@ const routes = [
     path: '/portfolio',
     name: 'Portfolio',
     visible: true,
-    icon: "ni ni-atom",
+    icon: "ni ni-chart-pie-35",
     component: Portfolio,
     layout: "/admin",
+  },
+  {
+    path: '/users/:id/edit',
+    visible: false,
+    component: UserForm,
+    layout: "/admin",
+    role: 'admin'
+  },
+  {
+    path: '/users/new',
+    visible: false,
+    component: UserForm,
+    layout: "/admin",
+    role: 'admin'
+  },
+  {
+    path: '/users',
+    name: 'Users',
+    visible: true,
+    icon: "ni ni-circle-08 text-pink",
+    component: Users,
+    layout: "/admin",
+    role: "admin"
   },
 ];
 export default routes;

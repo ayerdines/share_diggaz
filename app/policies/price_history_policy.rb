@@ -1,0 +1,3 @@
+class PriceHistoryPolicy < ApplicationPolicy
+
+end

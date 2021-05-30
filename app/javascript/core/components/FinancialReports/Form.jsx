@@ -2,7 +2,7 @@ import React from "react";
 import { Container } from "reactstrap";
 
 
-export default function Form() {
+export default function FinancialReportsForm() {
   return (
     <>
       <Container />

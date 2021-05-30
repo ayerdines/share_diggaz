@@ -57,7 +57,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "devise", "~> 4.8"
 gem "rest-client", "~> 2.1"
 gem "jsonapi-serializer", "~> 2.2"
-gem "font-awesome-rails"
 gem "nokogiri", "~> 1.11"
 gem "watir", "~> 6.19"
 gem "headless", "~> 2.3"

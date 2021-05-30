@@ -29,4 +29,13 @@ export default {
       data: changeData === true ? keysToSnake(entity) : entity,
     });
   },
+
+  deleteEntity(endpoint) {
+    return request({
+      method: 'DELETE',
+      url: endpoint,
+      headers: getHeaders(),
+      responseType: 'json',
+    });
+  },
 };

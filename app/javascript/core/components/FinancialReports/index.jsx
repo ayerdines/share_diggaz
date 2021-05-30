@@ -3,6 +3,7 @@ import AsyncSelect from 'react-select/async';
 import ReactTable from '../ReactTable';
 import {Button, Card, CardHeader, Col, Container, Row} from "reactstrap";
 import apiCall from "../../helpers/apiCall";
+import adminCanAccess from "../../helpers/Authorization";
 
 
 export default function Index({ history }) {
@@ -18,7 +19,7 @@ export default function Index({ history }) {
       }).catch(() => {});
   }, [symbol])
 
-  const loadOptions= (inputValue, callback) => {
+  const loadOptions = (inputValue, callback) => {
     apiCall.fetchEntities('/companies/symbol_options', { term: inputValue })
       .then((response) => {
         callback(response.data);
@@ -75,30 +76,30 @@ export default function Index({ history }) {
 
   return (
     <>
-      <Container className="pb-8 pt-5 pt-md-8" fluid>
+      <Container className="mt--9" fluid>
         <Row>
-          <Col xs={3}>
+          <Col md={3}>
             <AsyncSelect onChange={(option) => setSymbol(option.value)} loadOptions={loadOptions} />
           </Col>
-          <Col xs={9}>
+          <Col md={9}>
             <Button color="primary" type="button" onClick={() => history.push('/admin/financial-reports/new')}>
               Add Report
             </Button>
-            <Button color="primary" type="button" onClick={syncIndividualFinancialReport}>
-              Sync Financial Report
-            </Button>
+            { adminCanAccess() && (
+              <Button color="primary" type="button" onClick={syncIndividualFinancialReport}>
+                Sync Financial Report
+              </Button>
+            )}
           </Col>
+        </Row>
+        <Row className="mt-5">
           <Col>
-            <Row className="mt-5">
-              <Col>
-                <Card className="shadow">
-                  <CardHeader className="border-0">
-                    <h3 className="mb-0">Financial Reports</h3>
-                  </CardHeader>
-                </Card>
-                <ReactTable data={data} columns={columns} />
-              </Col>
-            </Row>
+            <Card className="shadow">
+              <CardHeader className="border-0">
+                <h3 className="mb-0">Financial Reports</h3>
+              </CardHeader>
+              <ReactTable data={data} columns={columns} />
+            </Card>
           </Col>
         </Row>
       </Container>

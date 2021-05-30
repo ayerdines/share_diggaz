@@ -37,6 +37,7 @@ class FinancialReportsController < ApplicationController
   end
 
   def sync
+    authorize FinancialReport
     symbols =
       if params[:sector]
         Company.select(:symbol).where(sector: params[:sector], instrument_type: :equity).pluck(:symbol)
