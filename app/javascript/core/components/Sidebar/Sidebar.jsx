@@ -18,6 +18,7 @@ import {
   Col,
 } from "reactstrap";
 import GlobalContext from "../../helpers/Store";
+import shareDiggazImage from "../../../images/sharediggaz.png";
 
 
 const Sidebar = (props) => {
@@ -57,19 +58,11 @@ const Sidebar = (props) => {
     });
   };
 
-  const { routes, logo } = props;
-  let navbarBrandProps;
-  if (logo && logo.innerLink) {
-    navbarBrandProps = {
-      to: logo.innerLink,
-      tag: Link,
-    };
-  } else if (logo && logo.outerLink) {
-    navbarBrandProps = {
-      href: logo.outerLink,
-      target: "_blank",
-    };
-  }
+  const { routes } = props;
+  let navbarBrandProps = {
+    to: "/admin/index",
+    tag: Link,
+  };
 
   return (
     <Navbar
@@ -85,31 +78,22 @@ const Sidebar = (props) => {
         >
           <span className="navbar-toggler-icon" />
         </button>
-        {logo ? (
-          <NavbarBrand className="pt-0" {...navbarBrandProps}>
-            <img
-              alt={logo.imgAlt}
-              className="navbar-brand-img"
-              src={logo.imgSrc}
-            />
-          </NavbarBrand>
-        ) : null}
+        <NavbarBrand className="pt-0" {...navbarBrandProps}>
+          <img
+            alt="sharediggaz.jpg"
+            className="navbar-brand-img"
+            src={shareDiggazImage}
+          />
+        </NavbarBrand>
         <Collapse navbar isOpen={collapseOpen}>
           <div className="navbar-collapse-header d-md-none">
             <Row>
-              {logo ? (
-                <Col className="collapse-brand" xs="6">
-                  {logo.innerLink ? (
-                    <Link to={logo.innerLink}>
-                      <img alt={logo.imgAlt} src={logo.imgSrc} />
-                    </Link>
-                  ) : (
-                    <a href={logo.outerLink}>
-                      <img alt={logo.imgAlt} src={logo.imgSrc} />
-                    </a>
-                  )}
-                </Col>
-              ) : null}
+              <Col className="collapse-brand" xs="6">
+                <Link to="/admin/index">
+                  <img alt="sharediggaz.jpg"
+                       src={shareDiggazImage} />
+                </Link>
+              </Col>
               <Col className="collapse-close" xs="6">
                 <button
                   className="navbar-toggler"

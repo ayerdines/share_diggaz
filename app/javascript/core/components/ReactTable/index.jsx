@@ -19,7 +19,13 @@ export default function Index({ columns, data }) {
           <th />
           {headerGroup.headers.map(column => (
             <th
-              {...column.getHeaderProps(column.getSortByToggleProps())}
+              {...column.getHeaderProps([
+                {
+                  className: column.className,
+                  style: column.style,
+                },
+                column.getSortByToggleProps()
+              ])}
             >
               {column.render('Header')}
               <span>
@@ -43,7 +49,12 @@ export default function Index({ columns, data }) {
             {row.cells.map(cell => {
               return (
                 <td
-                  {...cell.getCellProps()}
+                  {...cell.getCellProps([
+                    {
+                      className: cell.column.className,
+                      style: cell.column.style,
+                    },
+                  ])}
                 >
                   {cell.render('Cell')}
                 </td>

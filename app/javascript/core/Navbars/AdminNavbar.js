@@ -28,6 +28,7 @@ import {
   Media,
 } from "reactstrap";
 import apiCall from "../helpers/apiCall";
+import profileImage from "../../images/team-4-800x800.jpg";
 
 const AdminNavbar = (props) => {
   const logout = (e) => {
@@ -55,7 +56,7 @@ const AdminNavbar = (props) => {
                   <span className="avatar avatar-sm rounded-circle">
                     <img
                       alt="profile.png"
-                      src="/assets/team-4-800x800.jpg"
+                      src={profileImage}
                     />
                   </span>
                 </Media>

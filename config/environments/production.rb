@@ -18,7 +18,7 @@ Rails.application.configure do
 
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
   # or in config/master.key. This key is used to decrypt credentials (and other encrypted files).
-  # config.require_master_key = true
+  config.require_master_key = true
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
@@ -59,7 +59,7 @@ Rails.application.configure do
   # config.cache_store = :mem_cache_store
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
-  # config.active_job.queue_adapter     = :resque
+  config.active_job.queue_adapter     = :delayed_job
   # config.active_job.queue_name_prefix = "share_diggaz_production"
 
   config.action_mailer.perform_caching = false

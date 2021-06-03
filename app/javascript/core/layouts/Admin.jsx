@@ -50,11 +50,6 @@ export default function Admin(props) {
       <Sidebar
         {...props}
         routes={routes}
-        logo={{
-          innerLink: "/admin/index",
-          imgSrc: "/assets/brand/sharediggaz.png",
-          imgAlt: "...",
-        }}
       />
       <div className="main-content" ref={mainContent}>
         <AdminNavbar

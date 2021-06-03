@@ -84,6 +84,11 @@ export default function CompetitiveFinancialReports({ history }) {
       {
         Header: 'Company',
         accessor: 'symbol',
+        style: {
+          left: 0,
+          background: 'white',
+          position: 'sticky'
+        }
       },
       {
         Header: 'Previous Closing Price',
