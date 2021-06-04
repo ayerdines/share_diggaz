@@ -4,11 +4,14 @@ import { Button, Card, CardBody, Col, Container, Input, Row } from "reactstrap";
 import apiCall from "../../helpers/apiCall";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import adminCanAccess from "../../helpers/Authorization";
+import Select from "react-select";
 
 export default function SectorwiseFinancialReports({ history }) {
   const [sectorOptions, setSectorOptions] = useState([]);
   const [sector, setSector] = useState('commercial_banks');
   const [quarters, setQuarters] = useState([]);
+  const [symbolOptions, setSymbolOptions] = useState([])
+  const [selectedSymbols, setSelectedSymbols] = useState([])
   const [financialReports, setFinancialReports] = useState([]);
 
   useEffect(() => {
@@ -16,8 +19,21 @@ export default function SectorwiseFinancialReports({ history }) {
   }, [sector])
 
   useEffect(() => {
+    fetchSymbolOptions()
     fetchSectorOptions();
   }, [])
+
+  const fetchSymbolOptions = () => {
+    apiCall.fetchEntities('/companies/symbol_options.json')
+      .then((response) => {
+        const { data } = response;
+        const optionsData = data.map((company) => {
+          return { label: `${company.symbol}`, value: company.symbol, sector: company.sector }
+        })
+        setSymbolOptions(optionsData);
+        setSelectedSymbols(optionsData.filter((d) => d.sector === sector))
+      }).catch(() => {});
+  }
 
   const fetchFinancialReports = () => {
     apiCall.fetchEntities('/financial_reports.json', { sector: sector })
@@ -66,7 +82,18 @@ export default function SectorwiseFinancialReports({ history }) {
       }).catch(() => {});
   }
 
-  const data = useMemo(() => financialReports, [financialReports]);
+  const handleSymbolsChange = (options) => {
+    setSelectedSymbols(options);
+  }
+
+  const toggleSector = (event) => {
+    setSector(event.target.value);
+    setSelectedSymbols(symbolOptions.filter((d) => d.sector === event.target.value))
+  }
+
+  const data = useMemo(() => (
+    financialReports.filter((report) => selectedSymbols.map((s) => s.value).includes(report.symbol))
+  ), [financialReports, selectedSymbols]);
 
   const quarterColumns = (tab) => {
     return quarters.map((q) => {
@@ -99,27 +126,27 @@ export default function SectorwiseFinancialReports({ history }) {
   }
 
   const epsColumns = useMemo(
-    () => columns('eps'), [financialReports]
+    () => columns('eps'), [financialReports, selectedSymbols]
   )
 
   const bookValueColumns = useMemo(
-    () => columns('book_value'), [financialReports]
+    () => columns('book_value'), [financialReports, selectedSymbols]
   )
 
   const roeColumns = useMemo(
-    () => columns('roe'), [financialReports]
+    () => columns('roe'), [financialReports, selectedSymbols]
   )
 
   const netProfitColumns = useMemo(
-    () => columns('net_profit'), [financialReports]
+    () => columns('net_profit'), [financialReports, selectedSymbols]
   )
 
   const netInterestIncomeColumns = useMemo(
-    () => columns('net_interest_income'), [financialReports]
+    () => columns('net_interest_income'), [financialReports, selectedSymbols]
   )
 
   const distributableProfitColumns = useMemo(
-    () => columns('distributable_profit'), [financialReports]
+    () => columns('distributable_profit'), [financialReports, selectedSymbols]
   )
 
   return (
@@ -127,7 +154,7 @@ export default function SectorwiseFinancialReports({ history }) {
       <Container className="mt--9 mb-5" fluid>
         <Row>
           <Col md={3}>
-            <Input type="select" bsSize="md" onChange={(event) => setSector(event.target.value)}>
+            <Input type="select" bsSize="md" onChange={toggleSector}>
               { sectorOptions.map((sector, index) => <option key={String(index)} value={sector.value}>{sector.label}</option> )}
             </Input>
           </Col>
@@ -138,6 +165,22 @@ export default function SectorwiseFinancialReports({ history }) {
               </Button>
             )}
           </Col>
+        </Row>
+        <br />
+        <Row>
+          <Col md={9}>
+            <Select
+              isMulti
+              name="colors"
+              value={selectedSymbols}
+              options={symbolOptions.filter((d) => d.sector === sector)}
+              onChange={handleSymbolsChange}
+              className="basic-multi-select"
+              classNamePrefix="select"
+            />
+          </Col>
+        </Row>
+        <Row>
           <Col>
             <Row className="mt-5">
               <Col>

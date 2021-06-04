@@ -20,9 +20,17 @@ export default function Index({}) {
   }, [sector])
 
   useEffect(() => {
-    fetchSymbolOptions()
+    fetchSymbolOptions();
     fetchSectorOptions();
   }, [])
+
+  const fetchSectorOptions = () => {
+    apiCall.fetchEntities('/companies/sector_options.json')
+      .then((response) => {
+        const { data } = response;
+        setSectorOptions(data);
+      }).catch(() => {});
+  }
 
   const fetchSymbolOptions = () => {
     apiCall.fetchEntities('/companies/symbol_options.json')
@@ -33,14 +41,6 @@ export default function Index({}) {
         })
         setSymbolOptions(optionsData);
         setSelectedSymbols(optionsData.filter((d) => d.sector === sector))
-      }).catch(() => {});
-  }
-
-  const fetchSectorOptions = () => {
-    apiCall.fetchEntities('/companies/sector_options.json')
-      .then((response) => {
-        const { data } = response;
-        setSectorOptions(data);
       }).catch(() => {});
   }
 
@@ -74,16 +74,27 @@ export default function Index({}) {
       },
       {
         Header: 'EPS',
-        accessor: 'eps'
+        accessor: 'eps',
+        sortDescFirst: true
+      },
+      {
+        Header: 'P/E',
+        accessor: 'pe'
       },
       {
         Header: 'Book Value',
         accessor: 'book_value',
+        sortDescFirst: true
       },
       {
         Header: 'PBV',
         accessor: 'pbv',
-      }
+      },
+      {
+        Header: 'ROE',
+        accessor: 'roe',
+        sortDescFirst: true
+      },
   ], [financialReports, selectedSymbols])
 
   return (
