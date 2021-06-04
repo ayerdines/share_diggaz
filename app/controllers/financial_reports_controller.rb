@@ -4,7 +4,7 @@ class FinancialReportsController < ApplicationController
   def index
     symbols =
       if params[:sector].present?
-        Company.select(:symbol).where(sector: params[:sector], instrument_type: :equity, status: :A).order(:symbol).pluck(:symbol)
+        Company.select(:symbol).equity.A.where(sector: params[:sector]).order(:symbol).pluck(:symbol)
       else
         [params[:symbol]]
       end
@@ -44,7 +44,7 @@ class FinancialReportsController < ApplicationController
     authorize FinancialReport
     symbols =
       if params[:sector]
-        Company.select(:symbol).where(sector: params[:sector], instrument_type: :equity).pluck(:symbol)
+        Company.select(:symbol).equity.A.where(sector: params[:sector]).pluck(:symbol)
       else
         [params[:symbol]]
       end

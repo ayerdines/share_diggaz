@@ -9,7 +9,7 @@ class CompaniesController < ApplicationController
   end
 
   def symbols
-    render json: Company.includes(:price_histories).where(instrument_type: :equity, status: :A).distinct.map { |company| { label: "#{company.symbol} (LTP: #{company.last_price_history&.close_price})", value: company.symbol } }
+    render json: Company.includes(:price_histories).equity.A.distinct.map { |company| { label: "#{company.symbol} (LTP: #{company.last_price_history&.close_price})", value: company.symbol } }
   end
 
   def symbol_options

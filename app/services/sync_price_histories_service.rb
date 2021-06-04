@@ -10,7 +10,7 @@ class SyncPriceHistoriesService < ApplicationService
   end
 
   def call
-    model = Company
+    model = Company.equity.A
     model = model.where(sector: sectors) if sectors.present?
     model = model.where(symbol: symbols) if symbols.present?
     model.find_each do |company|
