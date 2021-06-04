@@ -5,7 +5,7 @@ import apiCall from "../../helpers/apiCall";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import adminCanAccess from "../../helpers/Authorization";
 
-export default function CompetitiveFinancialReports({ history }) {
+export default function SectorwiseFinancialReports({ history }) {
   const [sectorOptions, setSectorOptions] = useState([]);
   const [sector, setSector] = useState('commercial_banks');
   const [quarters, setQuarters] = useState([]);
@@ -91,7 +91,7 @@ export default function CompetitiveFinancialReports({ history }) {
         }
       },
       {
-        Header: 'Previous Closing Price',
+        Header: 'LTP',
         accessor: 'close_price',
       },
       ...quarterColumns(tab)
@@ -124,7 +124,7 @@ export default function CompetitiveFinancialReports({ history }) {
 
   return (
     <>
-      <Container className="mt--9" fluid>
+      <Container className="mt--9 mb-5" fluid>
         <Row>
           <Col md={3}>
             <Input type="select" bsSize="md" onChange={(event) => setSector(event.target.value)}>

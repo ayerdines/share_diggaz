@@ -2,7 +2,8 @@ import Companies from "./components/Companies";
 import PriceHistories from "./components/PriceHistories";
 import Watchlists from "./components/Watchlists";
 import FinancialReports from "./components/FinancialReports";
-import CompetitiveFinancialReports from "./components/FinancialReports/CompetitiveFinancialReports";
+import SectorwiseFinancialReports from "./components/FinancialReports/SectorwiseFinancialReports";
+import RatiosComparison from "./components/RatiosComparison";
 import WatchlistForm from "./components/Watchlists/Form";
 import Portfolio from "./components/ShareTransactions";
 import PortfolioForm from "./components/ShareTransactions/Form";
@@ -55,11 +56,19 @@ const routes = [
     layout: "/admin",
   },
   {
-    path: '/competitive-financial-reports',
-    name: 'Competitive Financial Reports',
+    path: '/sectorwise-financial-reports',
+    name: 'Sector-wise Financial Reports',
     visible: true,
     icon: "ni ni-chart-bar-32 text-success",
-    component: CompetitiveFinancialReports,
+    component: SectorwiseFinancialReports,
+    layout: "/admin",
+  },
+  {
+    path: '/ratios-comparison',
+    name: 'Compare Ratios',
+    visible: true,
+    icon: "ni ni-bulb-61 text-success",
+    component: RatiosComparison,
     layout: "/admin",
   },
   {

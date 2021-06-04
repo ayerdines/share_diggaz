@@ -8,6 +8,7 @@ class Company < ApplicationRecord
                   hydro_power investment life_insurance mutual_fund
                   manufacturing_and_processing microfinance non_life_insurance
                   tradings others]
+  enum status: %i[A S D] # { A: Active, S: Suspended, D: De-listed }
   enum instrument_type: %i[equity mutual_funds non_convertible_debentures preference_shares]
   validates :security_name, :symbol, :sector, presence: true
   validates_uniqueness_of :symbol

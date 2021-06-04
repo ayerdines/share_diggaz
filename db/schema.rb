@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_03_104541) do
+ActiveRecord::Schema.define(version: 2021_06_04_042503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2021_06_03_104541) do
     t.integer "nepse_company_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "status", default: 0
     t.index ["nepse_company_id"], name: "index_companies_on_nepse_company_id"
     t.index ["sector"], name: "index_companies_on_sector"
     t.index ["symbol"], name: "index_companies_on_symbol"

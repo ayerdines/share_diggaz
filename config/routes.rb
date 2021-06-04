@@ -7,6 +7,9 @@ Rails.application.routes.draw do
 
   resources :users, only: %i[index show create update destroy]
   resources :companies, only: %i[index] do
+    member do
+      post :toggle_status
+    end
     collection do
       get :sector_options
       get :symbol_options

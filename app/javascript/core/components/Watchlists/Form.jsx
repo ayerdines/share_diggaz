@@ -75,7 +75,7 @@ export default function WatchlistForm({ match, history }) {
 
   return (
     <>
-      <Container className="mt--9" fluid>
+      <Container className="mt--9 mb-5" fluid>
         <Row className="mt-5">
           <Col>
             <Card className="shadow">

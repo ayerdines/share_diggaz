@@ -35,6 +35,18 @@ export default function Index() {
       }).catch(() => {});
   }
 
+  const toggleCompanyStatus = (companyId) => {
+    apiCall.submitEntity({},`/companies/${companyId}/toggle_status.json`)
+      .then((response) => {
+        const { data } = response.data;
+        const company = data.attributes;
+        const companyIndex = companies.findIndex((obj => obj.id === company.id));
+        const c = companies[companyIndex];
+        c.status = company.status;
+        setCompanies([...companies.slice(0, companyIndex), c, ...companies.slice(companyIndex + 1)]);
+      }).catch(() => {});
+  }
+
   const data = useMemo(() => companies, [companies]);
   const columns = useMemo(
     () => [
@@ -54,13 +66,35 @@ export default function Index() {
         Header: 'Sector',
         accessor: 'sector',
       },
+      {
+        Header: 'Actions',
+        Cell: ({ row }) => {
+          return (
+            <div className="actions-right">
+              { adminCanAccess() &&
+              (
+                <Button
+                  onClick={() => toggleCompanyStatus(row.original.id)}
+                  color={row.original.status === 'A' ? 'danger' : 'success'}
+                  className="btn-icon"
+                  size="sm"
+                >
+                  { row.original.status === 'A' ?
+                    (<i className="fas fa-times-circle" />) :
+                    (<i className="fas fa-check-circle" />)
+                  }
+                </Button>
+              )}
+            </div>
+          )}
+      }
     ],
-    []
+    [companies]
   )
 
   return (
     <>
-      <Container className="mt--9" fluid>
+      <Container className="mt--9 mb-5" fluid>
         <Row>
           <Col xs={12}>
             { adminCanAccess() && (

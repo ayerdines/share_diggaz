@@ -22,7 +22,9 @@ export default function Index({ history }) {
   const loadOptions = (inputValue, callback) => {
     apiCall.fetchEntities('/companies/symbol_options', { term: inputValue })
       .then((response) => {
-        callback(response.data);
+        callback(response.data.map((company) => {
+          return { label: `${company.security_name}(${company.symbol})`, value: company.symbol }
+        }));
       })
   };
 
@@ -76,7 +78,7 @@ export default function Index({ history }) {
 
   return (
     <>
-      <Container className="mt--9" fluid>
+      <Container className="mt--9 mb-5" fluid>
         <Row>
           <Col md={3}>
             <AsyncSelect onChange={(option) => setSymbol(option.value)} loadOptions={loadOptions} />

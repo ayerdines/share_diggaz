@@ -144,7 +144,7 @@ export default function Index() {
 
   return (
     <>
-      <Container className="mt--9" fluid>
+      <Container className="mt--9 mb-5" fluid>
         <Row>
           <Col md={3}>
             <Input type="select" bsSize="md" onChange={toggleSector}>

@@ -134,7 +134,7 @@ export default function Index({ history }) {
 
   return (
     <>
-      <Container className="mt--9" fluid>
+      <Container className="mt--9 mb-5" fluid>
         { alert }
         <Row>
           <Col xs={12}>
