@@ -65,7 +65,11 @@ export default function Index({ history }) {
       },
       {
         Header: 'Price',
-        accessor: 'price'
+        accessor: 'price',
+        Cell: ({ value }) => {
+          if (value) return new Intl.NumberFormat('en-IN').format(value);
+          return null;
+        }
       },
       {
         Header: 'Business Date',
@@ -88,15 +92,19 @@ export default function Index({ history }) {
       },
       {
         Header: 'Previous Closing Price',
-        accessor: 'close_price'
+        accessor: 'close_price',
+        Cell: ({ value }) => {
+          if (value) return new Intl.NumberFormat('en-IN').format(value);
+          return null;
+        }
       },
       {
         Header: 'Gain',
         Cell: ({ row }) => {
           if (row.original.close_price && row.original.price && row.original.quantity) {
-            const percent = (row.original.close_price - row.original.price)/row.original.price;
+            const percent = ((row.original.close_price - row.original.price) * 100/row.original.price).toFixed(2);
             const amount = (row.original.close_price - row.original.price) * row.original.quantity;
-            return `${amount} (${percent}%)`
+            return `${new Intl.NumberFormat('en-IN').format(amount)} (${percent}%)`
           }
           return null;
         }

@@ -96,12 +96,21 @@ export default function SectorwiseFinancialReports({ history }) {
   ), [financialReports, selectedSymbols]);
 
   const quarterColumns = (tab) => {
+    let cellProperty = {}
+    if (['net_profit', 'eps', 'book_value', 'net_interest_income', 'distributable_profit'].includes(tab)) {
+      cellProperty = { Cell: ({ value }) => {
+          if (value) return new Intl.NumberFormat('en-IN').format(value);
+          return null;
+        }
+      }
+    }
     return quarters.map((q) => {
       const header = q.join('Q')
       return {
         Header: header,
         accessor: `${tab}${header}`,
         sortDescFirst: true,
+        ...cellProperty
       }
     })
   }
@@ -120,6 +129,15 @@ export default function SectorwiseFinancialReports({ history }) {
       {
         Header: 'LTP',
         accessor: 'close_price',
+        style: {
+          left: 0,
+          background: 'white',
+          position: 'sticky'
+        },
+        Cell: ({ value }) => {
+          if (value) return new Intl.NumberFormat('en-IN').format(value);
+          return null;
+        }
       },
       ...quarterColumns(tab)
     ]

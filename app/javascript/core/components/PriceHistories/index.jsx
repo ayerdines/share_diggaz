@@ -45,8 +45,10 @@ export default function Index() {
     })
     Object.entries(groupedData).forEach(([symbol, prices]) => {
       let formattedPrice = {}
+      const sortedPrices = prices.slice(0, 3).reverse()
       formattedPrice.symbol = symbol;
-      prices.reverse().map((price, index) => {
+      formattedPrice.close_price = (sortedPrices[2] || {}).close_price;
+      sortedPrices.map((price, index) => {
         formattedPrice[`price_change_${index}`] = parseFloat(price.price_change) || 0
         formattedPrice[`volume_change_${index}`] = parseFloat(price.volume_change) || 0
         formattedPrice[`average_traded_price_${index}`] = parseFloat(price.average_traded_price) || 0
@@ -114,8 +116,22 @@ export default function Index() {
   const columns = useMemo(
     () => [
       {
-        Header: 'Symbol',
+        Header: 'Company',
         accessor: 'symbol',
+        style: {
+          left: 0,
+          background: 'white',
+          position: 'sticky'
+        }
+      },
+      {
+        Header: 'LTP',
+        accessor: 'close_price',
+        style: {
+          left: 0,
+          background: 'white',
+          position: 'sticky'
+        }
       },
       ...dynamicColumns(),
       {

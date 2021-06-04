@@ -51,14 +51,26 @@ export default function Index({ history }) {
       {
         Header: 'Net Interest Income',
         accessor: 'net_interest_income',
+        Cell: ({ value }) => {
+          if (value) return new Intl.NumberFormat('en-IN').format(value);
+          return null;
+        }
       },
       {
         Header: 'Share Outstanding',
         accessor: 'shares_outstanding',
+        Cell: ({ value }) => {
+          if (value) return new Intl.NumberFormat('en-IN').format(value);
+          return null;
+        }
       },
       {
         Header: 'Net Profit',
         accessor: 'net_profit',
+        Cell: ({ value }) => {
+          if (value) return new Intl.NumberFormat('en-IN').format(value);
+          return null;
+        }
       },
       {
         Header: 'EPS',
@@ -67,9 +79,13 @@ export default function Index({ history }) {
       {
         Header: 'Book Value',
         accessor: 'book_value',
+        Cell: ({ value }) => {
+          if (value) return new Intl.NumberFormat('en-IN').format(value);
+          return null;
+        }
       },
       {
-        Header: 'ROE',
+        Header: 'ROE (%)',
         accessor: 'roe',
       },
     ],

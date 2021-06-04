@@ -71,6 +71,10 @@ export default function Index({}) {
       {
         Header: 'LTP',
         accessor: 'close_price',
+        Cell: ({ value }) => {
+          if (value) return new Intl.NumberFormat('en-IN').format(value);
+          return null;
+        }
       },
       {
         Header: 'EPS',
@@ -84,7 +88,11 @@ export default function Index({}) {
       {
         Header: 'Book Value',
         accessor: 'book_value',
-        sortDescFirst: true
+        sortDescFirst: true,
+        Cell: ({ value }) => {
+          if (value) return new Intl.NumberFormat('en-IN').format(value);
+          return null;
+        }
       },
       {
         Header: 'PBV',
