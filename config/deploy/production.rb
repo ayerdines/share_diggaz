@@ -20,6 +20,7 @@
 role :app, %w{deploy@ec2-3-17-56-75.us-east-2.compute.amazonaws.com}
 role :web, %w{deploy@ec2-3-17-56-75.us-east-2.compute.amazonaws.com}
 role :db,  %w{deploy@ec2-3-17-56-75.us-east-2.compute.amazonaws.com}
+role :sudo,  %w{deploy@ec2-3-17-56-75.us-east-2.compute.amazonaws.com}
 
 # Configuration
 # =============

@@ -17,6 +17,7 @@ require 'capistrano/rbenv'
 require 'capistrano/rails'
 require 'capistrano/delayed_job'
 require 'capistrano/nginx'
+install_plugin Capistrano::Nginx
 install_plugin Capistrano::SCM::Git
 
 # Include tasks from other gems included in your Gemfile

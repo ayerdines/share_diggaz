@@ -38,6 +38,7 @@ set :keep_releases, 5
 # set :local_user, -> { `git config user.name`.chomp }
 
 # Uncomment the following to require manually verifying the host key before first deploy.
+set :pty, true
 set :rbenv_type, :user # or :system, or :fullstaq (for Fullstaq Ruby), depends on your rbenv setup
 set :stage, :production
 set :rbenv_ruby, '2.6.7'
