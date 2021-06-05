@@ -23,7 +23,7 @@ set :migration_role, :app
 # set :pty, true
 
 # Default value for :linked_files is []
-append :linked_files, "config/credentials/production.key"
+append :linked_files, "config/credentials/production.key", "config/application.yml"
 
 # Default value for linked_dirs is []
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads'

@@ -1,0 +1,2 @@
+# Add configuration values here, as shown below.
+s3_user_host: "deploy@s3_ip.com"

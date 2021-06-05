@@ -10,10 +10,10 @@ class FinancialReportsController < ApplicationController
       end
     records = FinancialReport.where(symbol: symbols)
     quarters = records.distinct.order(year: :desc, quarter: :asc).pluck(:year, :quarter)
-    if params[:ratios].present?
-      last_quarter = quarters&.last
-      records = records.where(year: last_quarter.dig(0), quarter: last_quarter.dig(1))
-    end
+    # if params[:ratios].present?
+    #   last_quarter = quarters&.last
+    #   records = records.where(year: last_quarter.dig(0), quarter: last_quarter.dig(1))
+    # end
     close_prices = PriceHistory.distinct.where(symbol: symbols).order(:symbol, business_date: :desc).as_json(only: [:symbol, :close_price])
     render json: FinancialReportSerializer.new(records.order(:symbol, :year, quarter: :desc), { params: { include_ratios: true },
                                                    meta: { quarters: quarters, symbols: symbols, close_prices: close_prices }}).serializable_hash.as_json

@@ -26,6 +26,7 @@ const routes = [
     icon: "ni ni-building text-danger",
     component: Companies,
     layout: "/admin",
+    role: 'admin'
   },
   {
     path: '/watchlists/:id/edit',
@@ -63,14 +64,14 @@ const routes = [
     component: SectorwiseFinancialReports,
     layout: "/admin",
   },
-  {
-    path: '/ratios-comparison',
-    name: 'Compare Ratios',
-    visible: true,
-    icon: "ni ni-bulb-61 text-success",
-    component: RatiosComparison,
-    layout: "/admin",
-  },
+  // {
+  //   path: '/ratios-comparison',
+  //   name: 'Compare Ratios',
+  //   visible: true,
+  //   icon: "ni ni-bulb-61 text-success",
+  //   component: RatiosComparison,
+  //   layout: "/admin",
+  // },
   {
     path: '/portfolio/:id/edit',
     visible: false,

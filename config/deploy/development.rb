@@ -17,9 +17,10 @@
 # property set. Specify the username and a domain or IP for the server.
 # Don't use `:all`, it's a meta role.
 
-role :app, %w{deploy@ec2-3-17-56-75.us-east-2.compute.amazonaws.com}
-role :web, %w{deploy@ec2-3-17-56-75.us-east-2.compute.amazonaws.com}
-role :db,  %w{deploy@ec2-3-17-56-75.us-east-2.compute.amazonaws.com}
+role :app, [ENV['s3_user_host']]
+role :web, [ENV['s3_user_host']]
+role :db,  [ENV['s3_user_host']]
+role :sudo,  [ENV['s3_user_host']]
 
 # Configuration
 # =============

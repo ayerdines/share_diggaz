@@ -128,7 +128,7 @@ export default function Index() {
         Header: 'LTP',
         accessor: 'close_price',
         style: {
-          left: 0,
+          left: 100,
           background: 'white',
           position: 'sticky'
         }

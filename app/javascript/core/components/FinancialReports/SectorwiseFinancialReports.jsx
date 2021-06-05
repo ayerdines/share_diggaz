@@ -56,6 +56,14 @@ export default function SectorwiseFinancialReports({ history }) {
       const companyData = {};
       companyData.symbol = symbol
       companyData.close_price = (close_prices.find((r) => r.symbol === symbol) || {}).close_price
+      const lastYear = qtrs[qtrs.length - 1][0]
+      const lastQuarter = qtrs[qtrs.length - 1][1]
+      const lastReport = formattedCompanyData.find((d) => (d.year === lastYear) && (d.quarter = lastQuarter)) || {}
+      companyData.eps = lastReport.eps
+      companyData.pe = lastReport.pe
+      companyData.book_value = lastReport.book_value
+      companyData.pbv = lastReport.pbv
+      companyData.roe = lastReport.roe
       formattedCompanyData.map((d) => {
         const quarter = `${d.year}Q${d.quarter}`;
         ['quarter', 'net_profit', 'net_interest_income', 'distributable_profit', 'shares_outstanding', 'book_value', 'eps', 'roe'].map((p) => {
@@ -104,6 +112,37 @@ export default function SectorwiseFinancialReports({ history }) {
         }
       }
     }
+     if (tab === 'ratios') {
+       return [
+         {
+           Header: 'EPS',
+           accessor: 'eps',
+           sortDescFirst: true
+         },
+         {
+           Header: 'P/E',
+           accessor: 'pe'
+         },
+         {
+           Header: 'Book Value',
+           accessor: 'book_value',
+           sortDescFirst: true,
+           Cell: ({ value }) => {
+             if (value) return new Intl.NumberFormat('en-IN').format(value);
+             return null;
+           }
+         },
+         {
+           Header: 'PBV',
+           accessor: 'pbv',
+         },
+         {
+           Header: 'ROE',
+           accessor: 'roe',
+           sortDescFirst: true
+         }
+       ]
+     }
     return quarters.map((q) => {
       const header = q.join('Q')
       return {
@@ -130,7 +169,7 @@ export default function SectorwiseFinancialReports({ history }) {
         Header: 'LTP',
         accessor: 'close_price',
         style: {
-          left: 0,
+          left: 100,
           background: 'white',
           position: 'sticky'
         },
@@ -166,6 +205,9 @@ export default function SectorwiseFinancialReports({ history }) {
   const distributableProfitColumns = useMemo(
     () => columns('distributable_profit'), [financialReports, selectedSymbols]
   )
+
+  const ratiosColumns = useMemo(
+    () => columns('ratios'), [financialReports, selectedSymbols])
 
   return (
     <>
@@ -204,6 +246,7 @@ export default function SectorwiseFinancialReports({ history }) {
               <Col>
                 <Tabs className="rounded-top bg-white">
                   <TabList>
+                    <Tab>Ratios</Tab>
                     <Tab>EPS</Tab>
                     <Tab>Book Value</Tab>
                     <Tab>ROE</Tab>
@@ -211,7 +254,13 @@ export default function SectorwiseFinancialReports({ history }) {
                     <Tab>Net Interest Income</Tab>
                     <Tab>Distributable Profit</Tab>
                   </TabList>
-
+                  <TabPanel>
+                    <Card className="shadow">
+                      <CardBody>
+                        <ReactTable data={data} columns={ratiosColumns} />
+                      </CardBody>
+                    </Card>
+                  </TabPanel>
                   <TabPanel>
                     <Card className="shadow">
                       <CardBody>

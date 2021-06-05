@@ -17,6 +17,7 @@ require 'capistrano/rbenv'
 require 'capistrano/rails'
 require 'capistrano/delayed_job'
 require 'capistrano/nginx'
+require 'capistrano/figaro'
 install_plugin Capistrano::Nginx
 install_plugin Capistrano::SCM::Git
 
