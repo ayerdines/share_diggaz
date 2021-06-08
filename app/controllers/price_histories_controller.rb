@@ -11,9 +11,9 @@ class PriceHistoriesController < ApplicationController
 
   def sync
     authorize PriceHistory
-    sector = params.require(:sector)
+    sector = params[:sector]
     size = params[:last_day].present? ? 1 : 10
-    SyncPriceHistoriesJob.perform_later([sector], nil, 0, size)
+    SyncPriceHistoriesJob.perform_later([sector], [], 0, size)
     render json: {}, status: :ok
   end
 end

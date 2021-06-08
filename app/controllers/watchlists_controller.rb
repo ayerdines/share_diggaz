@@ -43,7 +43,7 @@ class WatchlistsController < ApplicationController
   end
 
   def watchlist_params
-    permitted_params = params.require(:watchlist).permit(:symbol, :quantity, :price, :business_date, :category, :remarks)
+    permitted_params = params.require(:watchlist).permit(:symbol, :business_date, :category, :remarks)
     permitted_params.merge(user_id: current_user.id)
   end
 end

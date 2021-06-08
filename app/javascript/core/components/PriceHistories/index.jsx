@@ -97,16 +97,32 @@ export default function Index() {
     setSector(event.target.value);
   }
 
-  const syncLastDay = () => {
-    syncPriceHistories(true);
-  }
-
   const syncAll = () => {
     syncPriceHistories();
   }
 
-  const syncPriceHistories = (lastDay = false) => {
-    apiCall.submitEntity({ sector: sector, last_day: lastDay },'/price_histories/sync.json')
+  const syncLastDay = () => {
+    syncPriceHistories(false, true);
+  }
+
+  const syncSector = () => {
+    syncPriceHistories(true);
+  }
+
+  const syncSectorLastDay = () => {
+    syncPriceHistories(true, true);
+  }
+
+  const syncPriceHistories = (isSector = false, lastDay = false) => {
+    const data = {}
+    if (isSector) {
+      data.sector = sector
+    }
+    if (lastDay) {
+      data.last_day = lastDay
+    }
+
+    apiCall.submitEntity(data,'/price_histories/sync.json')
       .then((response) => {
         alert('Sync Started');
       }).catch(() => {});
@@ -152,7 +168,7 @@ export default function Index() {
           //   accessor: 'average_traded_price',
           //   sortDescFirst: true
           // }
-          ],
+        ],
       },
     ],
     [businessDates]
@@ -167,18 +183,29 @@ export default function Index() {
               { sectorOptions.map((sector, index) => <option key={String(index)} value={sector.value}>{sector.label}</option> )}
             </Input>
           </Col>
-          <Col md={9}>
-            { adminCanAccess() && (
-              <>
+        </Row>
+        { adminCanAccess() && (
+          <>
+            <br />
+            <Row>
+              <Col>
                 <Button color="primary" type="button" onClick={syncAll}>
-                  Sync Sector Price Histories
+                  Sync All
+                </Button>
+                <Button color="primary" type="button" onClick={syncSector}>
+                  Sync Sector
                 </Button>
                 <Button color="primary" type="button" onClick={syncLastDay}>
                   Sync Last Trading Day
                 </Button>
-              </>
-            )}
-          </Col>
+                <Button color="primary" type="button" onClick={syncSectorLastDay}>
+                  Sync Sector's Last Trading Day
+                </Button>
+              </Col>
+            </Row>
+          </>
+        )}
+        <Row>
           <Col>
             <Row className="mt-5">
               <Col>

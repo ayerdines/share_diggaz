@@ -60,21 +60,12 @@ export default function Index({ history }) {
         accessor: 'symbol'
       },
       {
-        Header: 'Quantity',
-        accessor: 'quantity'
-      },
-      {
-        Header: 'Price',
-        accessor: 'price',
+        Header: 'LTP',
+        accessor: 'close_price',
         Cell: ({ value }) => {
           if (value) return new Intl.NumberFormat('en-IN').format(value);
           return null;
         }
-      },
-      {
-        Header: 'Business Date',
-        accessor: 'business_date',
-        Cell: ({ value }) =>  moment(value).format('YYYY-MM-DD')
       },
       {
         Header: 'Category',
@@ -91,23 +82,9 @@ export default function Index({ history }) {
         accessor: 'remarks'
       },
       {
-        Header: 'Previous Closing Price',
-        accessor: 'close_price',
-        Cell: ({ value }) => {
-          if (value) return new Intl.NumberFormat('en-IN').format(value);
-          return null;
-        }
-      },
-      {
-        Header: 'Gain',
-        Cell: ({ row }) => {
-          if (row.original.close_price && row.original.price && row.original.quantity) {
-            const percent = ((row.original.close_price - row.original.price) * 100/row.original.price).toFixed(2);
-            const amount = (row.original.close_price - row.original.price) * row.original.quantity;
-            return `${new Intl.NumberFormat('en-IN').format(amount)} (${percent}%)`
-          }
-          return null;
-        }
+        Header: 'Business Date',
+        accessor: 'business_date',
+        Cell: ({ value }) =>  moment(value).format('YYYY-MM-DD')
       },
       {
         Header: 'Actions',

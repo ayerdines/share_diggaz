@@ -111,20 +111,8 @@ export default function WatchlistForm({ match, history }) {
                         </Input>
                       </FormGroup>
                     </Col>
-                    <Col md="4">
-                      <FormGroup>
-                        <Label>Quantity</Label>
-                        <Input type="number" name="quantity" value={inputs.quantity} onChange={handleFormInputChange} />
-                      </FormGroup>
-                    </Col>
                   </Row>
                   <Row>
-                    <Col md={4}>
-                      <FormGroup>
-                        <Label>Price</Label>
-                        <Input type="number" name="price" value={inputs.price} onChange={handleFormInputChange} />
-                      </FormGroup>
-                    </Col>
                     <Col md="4">
                       <FormGroup>
                         <Label>Business Date</Label>
@@ -133,7 +121,6 @@ export default function WatchlistForm({ match, history }) {
                           name="businessDate"
                           value={inputs.businessDate}
                           onChange={handleFormInputChange}
-                          required
                         />
                       </FormGroup>
                     </Col>

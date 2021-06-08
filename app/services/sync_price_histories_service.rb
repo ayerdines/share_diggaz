@@ -3,8 +3,8 @@
 class SyncPriceHistoriesService < ApplicationService
   attr_reader :sectors, :symbols, :page, :size
   def initialize(sectors=[], symbols=[], page = 0, size = 10)
-    @sectors = sectors
-    @symbols = symbols
+    @sectors = sectors.compact
+    @symbols = symbols.compact
     @page = page
     @size = size
   end
