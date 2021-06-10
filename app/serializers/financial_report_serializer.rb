@@ -11,4 +11,8 @@ class FinancialReportSerializer
   attribute :pe, if: proc { |_, params| params && params[:include_ratios] == true } do |record|
     (record.close_price.to_f/record.eps).round(2)
   end
+
+  attribute :dpps, if: proc { |_, params| params && params[:include_ratios] == true } do |record|
+    ((record.distributable_profit.to_f * 4000)/(3 * record.shares_outstanding)).round(2)
+  end
 end

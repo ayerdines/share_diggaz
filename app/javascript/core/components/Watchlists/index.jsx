@@ -114,7 +114,7 @@ export default function Index({ history }) {
             </>
           )}
       }
-    ], [watchlistsData]
+    ], [watchlistsData, categories]
   )
 
   return (

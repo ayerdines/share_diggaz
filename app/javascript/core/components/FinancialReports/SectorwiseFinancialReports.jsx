@@ -64,6 +64,7 @@ export default function SectorwiseFinancialReports({ history }) {
       companyData.book_value = lastReport.book_value
       companyData.pbv = lastReport.pbv
       companyData.roe = lastReport.roe
+      companyData.dpps = lastReport.dpps
       formattedCompanyData.map((d) => {
         const quarter = `${d.year}Q${d.quarter}`;
         ['quarter', 'net_profit', 'net_interest_income', 'distributable_profit', 'shares_outstanding', 'book_value', 'eps', 'roe'].map((p) => {
@@ -118,6 +119,14 @@ export default function SectorwiseFinancialReports({ history }) {
            Header: 'EPS',
            accessor: 'eps',
            sortDescFirst: true
+         },
+         {
+           Header: 'Dividend Capacity',
+           accessor: 'dpps',
+           sortDescFirst: true,
+           style: {
+             maxWidth: "140px"
+           }
          },
          {
            Header: 'P/E',
