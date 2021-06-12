@@ -1,4 +1,5 @@
 class Watchlist < ApplicationRecord
+  belongs_to :user
   enum category: %i[general want_to_buy want_to_sell missed_buys missed_sales]
 
   def last_price_history

@@ -64,14 +64,6 @@ const routes = [
     component: SectorwiseFinancialReports,
     layout: "/admin",
   },
-  // {
-  //   path: '/ratios-comparison',
-  //   name: 'Compare Ratios',
-  //   visible: true,
-  //   icon: "ni ni-bulb-61 text-success",
-  //   component: RatiosComparison,
-  //   layout: "/admin",
-  // },
   {
     path: '/portfolio/:id/edit',
     visible: false,
@@ -86,7 +78,7 @@ const routes = [
   },
   {
     path: '/portfolio',
-    name: 'Portfolio',
+    name: 'Share Transactions',
     visible: true,
     icon: "ni ni-chart-pie-35",
     component: Portfolio,
