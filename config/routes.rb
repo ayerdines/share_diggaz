@@ -29,9 +29,10 @@ Rails.application.routes.draw do
       get :categories
     end
   end
-  resources :financial_reports, only: %i[index create update destroy] do
+  resources :financial_reports, only: %i[index show create update destroy] do
     collection do
       post :sync
+      get :years_options
     end
   end
 

@@ -3,12 +3,12 @@ import PriceHistories from "./components/PriceHistories";
 import Watchlists from "./components/Watchlists";
 import FinancialReports from "./components/FinancialReports";
 import SectorwiseFinancialReports from "./components/FinancialReports/SectorwiseFinancialReports";
-import RatiosComparison from "./components/RatiosComparison";
 import WatchlistForm from "./components/Watchlists/Form";
 import Portfolio from "./components/ShareTransactions";
 import PortfolioForm from "./components/ShareTransactions/Form";
 import UserForm from "./components/Users/Form";
 import Users from "./components/Users";
+import FinancialReportForm from "./components/FinancialReports/Form";
 
 const routes = [
   {
@@ -46,6 +46,18 @@ const routes = [
     visible: true,
     icon: "ni ni-watch-time text-info",
     component: Watchlists,
+    layout: "/admin",
+  },
+  {
+    path: '/financial-reports/new',
+    visible: false,
+    component: FinancialReportForm,
+    layout: "/admin",
+  },
+  {
+    path: '/financial-reports/:id/edit',
+    visible: false,
+    component: FinancialReportForm,
     layout: "/admin",
   },
   {

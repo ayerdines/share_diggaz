@@ -1,5 +1,5 @@
 class FinancialReportsController < ApplicationController
-  before_action :set_financial_report, only: %i[update destroy]
+  before_action :set_financial_report, only: %i[show update destroy]
 
   def index
     symbols =
@@ -10,17 +10,17 @@ class FinancialReportsController < ApplicationController
       end
     records = FinancialReport.where(symbol: symbols)
     quarters = records.distinct.order(year: :desc, quarter: :asc).pluck(:year, :quarter)
-    # if params[:ratios].present?
-    #   last_quarter = quarters&.last
-    #   records = records.where(year: last_quarter.dig(0), quarter: last_quarter.dig(1))
-    # end
     close_prices = PriceHistory.distinct.where(symbol: symbols).order(:symbol, business_date: :desc).as_json(only: [:symbol, :close_price])
     render json: FinancialReportSerializer.new(records.order(:symbol, :year, quarter: :desc), { params: { include_ratios: true },
                                                    meta: { quarters: quarters, symbols: symbols, close_prices: close_prices }}).serializable_hash.as_json
   end
 
+  def show
+    render json: FinancialReportSerializer.new(@financial_report).serializable_hash.as_json
+  end
+
   def create
-    financial_report = FinancialReport.new(financial_reports_params)
+    financial_report = FinancialReport.new(financial_report_params)
     if financial_report.save
       render json: FinancialReportSerializer.new(financial_report).serializable_hash.as_json
     else
@@ -29,7 +29,7 @@ class FinancialReportsController < ApplicationController
   end
 
   def update
-    if @financial_report.update(financial_reports_params)
+    if @financial_report.update(financial_report_params)
       render json: FinancialReportSerializer.new(@financial_report).serializable_hash.as_json
     else
       render json: @financial_report.errors, status: :unprocessable_entity
@@ -51,13 +51,17 @@ class FinancialReportsController < ApplicationController
     SyncFinancialReportJob.perform_later(symbols, FinancialReport.years.keys)
   end
 
+  def years_options
+    render json: FinancialReport.years.keys.map { |year| { label: year, value: year } }
+  end
+
   private
 
   def set_financial_report
     @financial_report = FinancialReport.find(params[:id])
   end
 
-  def financial_reports_params
+  def financial_report_params
     params.require(:financial_report).permit(:year, :quarter, :net_profit, :net_interest_income, :distributable_profit, :shares_outstanding, :book_value, :eps, :roe)
   end
 end

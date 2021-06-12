@@ -1,12 +1,14 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { useLocation } from 'react-router-dom';
 import AsyncSelect from 'react-select/async';
 import ReactTable from '../ReactTable';
-import {Button, Card, CardHeader, Col, Container, Row} from "reactstrap";
+import { Button, Card, CardHeader, Col, Container, Row } from "reactstrap";
 import apiCall from "../../helpers/apiCall";
 import adminCanAccess from "../../helpers/Authorization";
 
 
-export default function Index({ history }) {
+export default function Index({ history, match }) {
+  const query = useQuery();
   const [symbol, setSymbol] = useState('');
   const [financialReports, setFinancialReports] = useState([]);
 
@@ -18,6 +20,16 @@ export default function Index({ history }) {
         setFinancialReports(financialReportsData);
       }).catch(() => {});
   }, [symbol])
+
+  useEffect(() => {
+    if (query.get("symbol")) {
+      setSymbol(query.get("symbol"))
+    }
+  }, [])
+
+  function useQuery() {
+    return new URLSearchParams(useLocation().search);
+  }
 
   const loadOptions = (inputValue, callback) => {
     apiCall.fetchEntities('/companies/symbol_options', { term: inputValue })
@@ -49,14 +61,6 @@ export default function Index({ history }) {
         accessor: 'quarter',
       },
       {
-        Header: 'Net Interest Income',
-        accessor: 'net_interest_income',
-        Cell: ({ value }) => {
-          if (value) return new Intl.NumberFormat('en-IN').format(value);
-          return null;
-        }
-      },
-      {
         Header: 'Share Outstanding',
         accessor: 'shares_outstanding',
         Cell: ({ value }) => {
@@ -65,8 +69,24 @@ export default function Index({ history }) {
         }
       },
       {
+        Header: 'Net Interest Income',
+        accessor: 'net_interest_income',
+        Cell: ({ value }) => {
+          if (value) return new Intl.NumberFormat('en-IN').format(value);
+          return null;
+        }
+      },
+      {
         Header: 'Net Profit',
         accessor: 'net_profit',
+        Cell: ({ value }) => {
+          if (value) return new Intl.NumberFormat('en-IN').format(value);
+          return null;
+        }
+      },
+      {
+        Header: 'Distributable Profit',
+        accessor: 'distributable_profit',
         Cell: ({ value }) => {
           if (value) return new Intl.NumberFormat('en-IN').format(value);
           return null;
@@ -88,6 +108,26 @@ export default function Index({ history }) {
         Header: 'ROE (%)',
         accessor: 'roe',
       },
+      {
+        Header: 'Actions',
+        Cell: ({ row }) => {
+          return (
+            <>
+              <div className="actions-right">
+                <Button
+                  onClick={() => {
+                    history.push(`/admin/financial-reports/${row.original.id}/edit`);
+                  }}
+                  color="primary"
+                  className="btn-icon"
+                  size="sm"
+                >
+                  <i className="ni ni-ruler-pencil" />
+                </Button>
+              </div>
+            </>
+          )}
+      }
     ],
     []
   )
