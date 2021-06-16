@@ -16,6 +16,7 @@ class SyncPriceHistoriesService < ApplicationService
     model.find_each do |company|
       Nepse::PriceHistories.fetch(company.nepse_company_id, page, size).reverse_each do |price_history|
         save_to_database(company, price_history)
+        sleep 1
         break if size == 1
       end
     end
