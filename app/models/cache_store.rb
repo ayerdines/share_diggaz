@@ -1,0 +1,2 @@
+class CacheStore < ApplicationRecord
+end

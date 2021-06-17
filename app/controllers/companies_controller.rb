@@ -16,6 +16,17 @@ class CompaniesController < ApplicationController
     render json: Company.select(:symbol, :security_name, :sector).where("(symbol ilike ? OR security_name ilike ?) AND instrument_type = 0 AND status = 0", "%#{params[:term]}%", "%#{params[:term]}%")
   end
 
+  def sector_summary
+    summary = FetchSectorSummaryService.call
+    render json: summary
+  end
+
+  def today_price
+    render json: {}, status: :unprocessable_entity and return if form_id.blank? || business_date.blank?
+    summary = FetchTodayPriceService.call(form_id, business_date)
+    render json: summary
+  end
+
   def sync
     authorize Company
     SyncCompaniesJob.perform_later
@@ -34,6 +45,30 @@ class CompaniesController < ApplicationController
       render json: CompanySerializer.new(company).serializable_hash.as_json
     else
       render json: company.errors, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def form_id
+    if params[:form_id].present?
+      CacheStore.find_or_initialize_by(key: 'form_id').tap do |record|
+        record.update(entry: params[:form_id])
+      end
+      params[:form_id]
+    else
+      CacheStore.find_by(key: 'form_id')&.entry
+    end
+  end
+
+  def business_date
+    if params[:business_date].present?
+      CacheStore.find_or_initialize_by(key: 'business_date').tap do |record|
+        record.update(entry: params[:business_date])
+      end
+      params[:business_date]
+    else
+      CacheStore.find_by(key: 'business_date')&.entry
     end
   end
 end

@@ -11,6 +11,8 @@ Rails.application.routes.draw do
       post :toggle_status
     end
     collection do
+      post :today_price
+      get :sector_summary
       get :sector_options
       get :symbol_options
       get :symbols

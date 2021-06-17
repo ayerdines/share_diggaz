@@ -9,6 +9,7 @@ import PortfolioForm from "./components/ShareTransactions/Form";
 import UserForm from "./components/Users/Form";
 import Users from "./components/Users";
 import FinancialReportForm from "./components/FinancialReports/Form";
+import VolumeAnalysis from "./components/VolumeAnalysis";
 
 const routes = [
   {
@@ -94,6 +95,14 @@ const routes = [
     visible: true,
     icon: "ni ni-chart-pie-35",
     component: Portfolio,
+    layout: "/admin",
+  },
+  {
+    path: '/volume-analysis',
+    name: 'Volume Analysis',
+    visible: true,
+    icon: "ni ni-circle-08 text-pink",
+    component: VolumeAnalysis,
     layout: "/admin",
   },
   {

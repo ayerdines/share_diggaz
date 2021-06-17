@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_08_131338) do
+ActiveRecord::Schema.define(version: 2021_06_16_190855) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cache_stores", force: :cascade do |t|
+    t.string "key"
+    t.text "entry"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["key"], name: "index_cache_stores_on_key"
+  end
 
   create_table "companies", force: :cascade do |t|
     t.string "security_name"
